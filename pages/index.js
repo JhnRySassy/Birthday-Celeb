@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // ---------------------------------------------------------------
 // Cherry Dawang — Birthday Celebration RSVP
 // Edit EVENT below for date, time, venue, dress code.
 // Edit GOOGLE_SCRIPT_URL below after you deploy your Apps Script
 // (see README.md for the step-by-step).
+// Photos live in /public/photos — add or remove filenames in PHOTOS below.
 // ---------------------------------------------------------------
 
 const EVENT = {
   name: "Cherry Lyn Dawang",
   headline: "is turning a year more wonderful",
   date: "September 18, 2026",
-  time: "6:00 PM", // ← placeholder, update to the real time
+  time: "6:30 PM", // ← placeholder, update to the real time
   venue: "Mang Rudy's Tuna Grill & Papaitan", // ← placeholder
   address: "7483 Bagtikan Street, Makati, 1203 Kalakhang Maynila", // ← placeholder
   dressCode: "Wear something you feel good in", // ← placeholder
@@ -20,7 +21,15 @@ const EVENT = {
 
 // PASTE your deployed Google Apps Script Web App URL here (see README.md)
 const GOOGLE_SCRIPT_URL =
-  "https://www.google.com/maps/place/Mang+Rudy's+Tuna+Grill+%26+Papaitan/@14.5631537,121.012608,188m/data=!3m1!1e3!4m6!3m5!1s0x3397c90cd50b44d7:0xf76c17b52b7b5350!8m2!3d14.5630358!4d121.0127772!16s%2Fg%2F11bw4x628s?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D";
+  "https://script.google.com/macros/s/AKfycbzz5ah7rzGTy4TUc-kGNi4GOK6tawlcr1RsCohMTUlmZvD6VmG7iGqp0YTSeRBqgGK5_Q/exec";
+
+const PHOTOS = [
+  "/photos/cherry-1.jpg",
+  "/photos/cherry-2.jpg",
+  "/photos/cherry-3.jpg",
+  "/photos/cherry-4.jpg",
+  "/photos/cherry-5.jpg",
+];
 
 const FONT_IMPORT_CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&display=swap');
@@ -53,6 +62,91 @@ function CherryMark({ size = 40 }) {
       <circle cx="42" cy="46" r="13" fill="#8C1830" />
       <ellipse cx="18" cy="37" rx="3" ry="1.8" fill="#E98CA0" opacity="0.7" />
     </svg>
+  );
+}
+
+function Carousel({ photos }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const touchStartX = useRef(null);
+
+  useEffect(() => {
+    if (paused || photos.length <= 1) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % photos.length);
+    }, 4200);
+    return () => clearInterval(id);
+  }, [paused, photos.length]);
+
+  function goTo(i) {
+    setIndex(((i % photos.length) + photos.length) % photos.length);
+  }
+
+  function onTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function onTouchEnd(e) {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (delta > 40) goTo(index - 1);
+    else if (delta < -40) goTo(index + 1);
+    touchStartX.current = null;
+  }
+
+  return (
+    <div
+      className="carousel"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      <div
+        className="carousel-track"
+        style={{ transform: `translateX(-${index * 100}%)` }}
+      >
+        {photos.map((src, i) => (
+          <div className="carousel-slide" key={src}>
+            <img
+              src={src}
+              alt={`${EVENT.name} — photo ${i + 1}`}
+              draggable="false"
+            />
+          </div>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        className="carousel-arrow carousel-arrow-left"
+        onClick={() => goTo(index - 1)}
+        aria-label="Previous photo"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        className="carousel-arrow carousel-arrow-right"
+        onClick={() => goTo(index + 1)}
+        aria-label="Next photo"
+      >
+        ›
+      </button>
+
+      <div className="carousel-dots" role="tablist" aria-label="Photo selector">
+        {photos.map((_, i) => (
+          <button
+            key={i}
+            role="tab"
+            aria-selected={i === index}
+            aria-label={`Go to photo ${i + 1}`}
+            className={`carousel-dot ${i === index ? "carousel-dot-active" : ""}`}
+            onClick={() => goTo(i)}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -226,6 +320,95 @@ export default function Home() {
           box-shadow: 0 24px 60px -30px rgba(58, 13, 24, 0.35);
           padding: 36px 32px;
           margin-bottom: 28px;
+        }
+
+        .gallery-card {
+          padding: 14px;
+        }
+
+        .gallery-heading {
+          font-family: 'Fraunces', serif;
+          font-size: 20px;
+          font-weight: 600;
+          margin: 10px 6px 14px;
+        }
+
+        .carousel {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 4 / 5;
+          max-height: 560px;
+          border-radius: 14px;
+          overflow: hidden;
+          background: var(--wine);
+        }
+
+        .carousel-track {
+          display: flex;
+          height: 100%;
+          transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .carousel-slide {
+          flex: 0 0 100%;
+          height: 100%;
+        }
+
+        .carousel-slide img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .carousel-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(58, 13, 24, 0.55);
+          color: #fff;
+          font-size: 22px;
+          line-height: 1;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(2px);
+        }
+
+        .carousel-arrow:hover { background: rgba(58, 13, 24, 0.8); }
+        .carousel-arrow:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+        .carousel-arrow-left { left: 12px; }
+        .carousel-arrow-right { right: 12px; }
+
+        .carousel-dots {
+          position: absolute;
+          bottom: 14px;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .carousel-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(255, 255, 255, 0.5);
+          cursor: pointer;
+          padding: 0;
+        }
+
+        .carousel-dot-active {
+          background: var(--blush);
+          width: 20px;
+          border-radius: 4px;
         }
 
         .section-title {
@@ -412,6 +595,7 @@ export default function Home() {
         @media (max-width: 480px) {
           .detail-grid { grid-template-columns: 1fr; }
           .card { padding: 28px 20px; }
+          .carousel { aspect-ratio: 3 / 4; }
         }
       `}</style>
 
@@ -424,6 +608,11 @@ export default function Home() {
       </header>
 
       <main className="content">
+        <section className="card gallery-card" aria-label="Photo gallery">
+          <h2 className="gallery-heading">Moments with Cherry</h2>
+          <Carousel photos={PHOTOS} />
+        </section>
+
         <section className="card" aria-labelledby="details-heading">
           <h2 id="details-heading" className="section-title">
             Event details
