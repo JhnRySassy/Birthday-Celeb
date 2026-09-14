@@ -20,8 +20,8 @@ const EVENT = {
 };
 
 // PASTE your deployed Google Apps Script Web App URL here (see README.md)
-const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzz5ah7rzGTy4TUc-kGNi4GOK6tawlcr1RsCohMTUlmZvD6VmG7iGqp0YTSeRBqgGK5_Q/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzz5ah7rzGTy4TUc-kGNi4GOK6tawlcr1RsCohMTUlmZvD6VmG7iGqp0YTSeRBqgGK5_Q/exec";
+
 
 const PHOTOS = [
   "/photos/cherry-1.jpg",
