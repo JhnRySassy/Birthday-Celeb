@@ -12,16 +12,17 @@ const EVENT = {
   name: "Cherry Lyn Dawang",
   headline: "is turning a year more wonderful",
   date: "September 18, 2026",
-  time: "6:30 PM", // ← placeholder, update to the real time
+  time: "6:00 PM", // ← placeholder, update to the real time
   venue: "Mang Rudy's Tuna Grill & Papaitan", // ← placeholder
-  address: "7483 Bagtikan Street, Makati, 1203 Kalakhang Maynila", // ← placeholder
+  address: "7483 Bagtikan Street, Makati, 1203 Kalakhang Maynila",
+  mapEmbedUrl: "https://maps.google.com/maps?q=14.562988,121.012796&z=17&hl=en&output=embed",
+  mapDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=14.562988,121.012796",
   dressCode: "Wear something you feel good in", // ← placeholder
   rsvpBy: "September 14, 2026",
 };
 
 // PASTE your deployed Google Apps Script Web App URL here (see README.md)
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzz5ah7rzGTy4TUc-kGNi4GOK6tawlcr1RsCohMTUlmZvD6VmG7iGqp0YTSeRBqgGK5_Q/exec";
-
 
 const PHOTOS = [
   "/photos/cherry-1.jpg",
@@ -37,27 +38,9 @@ const FONT_IMPORT_CSS = `
 
 function CherryMark({ size = 40 }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 64 64"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M28 6 C 30 16, 34 20, 30 30"
-        stroke="#5C7A4B"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M28 6 C 26 16, 20 20, 22 30"
-        stroke="#5C7A4B"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        fill="none"
-      />
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M28 6 C 30 16, 34 20, 30 30" stroke="#5C7A4B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <path d="M28 6 C 26 16, 20 20, 22 30" stroke="#5C7A4B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <circle cx="22" cy="42" r="13" fill="#B0203D" />
       <circle cx="42" cy="46" r="13" fill="#8C1830" />
       <ellipse cx="18" cy="37" rx="3" ry="1.8" fill="#E98CA0" opacity="0.7" />
@@ -102,17 +85,10 @@ function Carousel({ photos }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <div
-        className="carousel-track"
-        style={{ transform: `translateX(-${index * 100}%)` }}
-      >
+      <div className="carousel-track" style={{ transform: `translateX(-${index * 100}%)` }}>
         {photos.map((src, i) => (
           <div className="carousel-slide" key={src}>
-            <img
-              src={src}
-              alt={`${EVENT.name} — photo ${i + 1}`}
-              draggable="false"
-            />
+            <img src={src} alt={`${EVENT.name} — photo ${i + 1}`} draggable="false" />
           </div>
         ))}
       </div>
@@ -180,12 +156,7 @@ function TicketStub({ guestName, guestCount, code }) {
 }
 
 export default function Home() {
-  const [form, setForm] = useState({
-    name: "",
-    guests: "1",
-    contact: "",
-    message: "",
-  });
+  const [form, setForm] = useState({ name: "", guests: "1", contact: "", message: "" });
   const [submitted, setSubmitted] = useState(null);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -211,11 +182,7 @@ export default function Home() {
           method: "POST",
           mode: "no-cors", // Apps Script web apps don't return CORS headers; this still delivers the request
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...form,
-            code,
-            timestamp: new Date().toISOString(),
-          }),
+          body: JSON.stringify({ ...form, code, timestamp: new Date().toISOString() }),
         });
       }
     } catch (err) {
@@ -454,6 +421,53 @@ export default function Home() {
           color: var(--ink-soft);
         }
 
+        .map-wrap {
+          position: relative;
+          margin-top: 20px;
+          border-radius: 12px;
+          overflow: hidden;
+          border: 1.4px solid #F0E4DE;
+        }
+
+        .map-cta {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          z-index: 2;
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          background: var(--cherry);
+          color: #fff;
+          font-size: 13px;
+          font-weight: 600;
+          padding: 9px 14px;
+          border-radius: 999px;
+          text-decoration: none;
+          box-shadow: 0 6px 16px -6px rgba(58, 13, 24, 0.5);
+        }
+
+        .map-cta:hover { background: var(--cherry-deep); }
+        .map-cta-icon { font-size: 14px; }
+
+        .map-frame {
+          width: 100%;
+          height: 220px;
+          border: none;
+          display: block;
+        }
+
+        .map-link {
+          display: inline-block;
+          margin-top: 10px;
+          font-size: 13.5px;
+          font-weight: 600;
+          color: var(--cherry);
+          text-decoration: none;
+        }
+
+        .map-link:hover { text-decoration: underline; }
+
         .field {
           margin-bottom: 18px;
           display: flex;
@@ -614,12 +628,8 @@ export default function Home() {
         </section>
 
         <section className="card" aria-labelledby="details-heading">
-          <h2 id="details-heading" className="section-title">
-            Event details
-          </h2>
-          <p className="section-desc">
-            Everything you need to know for the day.
-          </p>
+          <h2 id="details-heading" className="section-title">Event details</h2>
+          <p className="section-desc">Everything you need to know for the day.</p>
           <div className="detail-grid">
             <div className="detail-item">
               <span className="detail-label">Date</span>
@@ -639,67 +649,56 @@ export default function Home() {
             </div>
           </div>
           <div className="rsvp-note">
-            {EVENT.address} — kindly RSVP on or before{" "}
-            <strong>{EVENT.rsvpBy}</strong>.
+            {EVENT.address} — kindly RSVP on or before <strong>{EVENT.rsvpBy}</strong>.
           </div>
+
+          <div className="map-wrap">
+            
+              className="map-cta"
+              href={EVENT.mapDirectionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="map-cta-icon">⤢</span> View bigger map
+            </a>
+            <iframe
+              className="map-frame"
+              src={EVENT.mapEmbedUrl}
+              title="Event location map"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <a className="map-link" href={EVENT.mapDirectionsUrl} target="_blank" rel="noopener noreferrer">
+            Directions in the Maps app ↗
+          </a>
         </section>
 
         <section className="card" aria-labelledby="rsvp-heading">
           {!submitted ? (
             <>
-              <h2 id="rsvp-heading" className="section-title">
-                Confirm your attendance
-              </h2>
-              <p className="section-desc">
-                Fill this out and we'll save your spot.
-              </p>
+              <h2 id="rsvp-heading" className="section-title">Confirm your attendance</h2>
+              <p className="section-desc">Fill this out and we'll save your spot.</p>
               <form onSubmit={handleSubmit} noValidate>
                 <div className="field">
                   <label htmlFor="name">Full name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="Juan Dela Cruz"
-                  />
+                  <input id="name" name="name" value={form.name} onChange={handleChange} placeholder="Juan Dela Cruz" />
                 </div>
                 <div className="field">
-                  <label htmlFor="guests">
-                    Number attending (including you)
-                  </label>
-                  <select
-                    id="guests"
-                    name="guests"
-                    value={form.guests}
-                    onChange={handleChange}
-                  >
+                  <label htmlFor="guests">Number attending (including you)</label>
+                  <select id="guests" name="guests" value={form.guests} onChange={handleChange}>
                     {[1, 2, 3, 4, 5, 6].map((n) => (
-                      <option key={n} value={n}>
-                        {n}
-                      </option>
+                      <option key={n} value={n}>{n}</option>
                     ))}
                   </select>
                 </div>
                 <div className="field">
                   <label htmlFor="contact">Contact number</label>
-                  <input
-                    id="contact"
-                    name="contact"
-                    value={form.contact}
-                    onChange={handleChange}
-                    placeholder="09XX XXX XXXX"
-                  />
+                  <input id="contact" name="contact" value={form.contact} onChange={handleChange} placeholder="09XX XXX XXXX" />
                 </div>
                 <div className="field">
                   <label htmlFor="message">Message for Cherry (optional)</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="Excited to celebrate with you!"
-                  />
+                  <textarea id="message" name="message" value={form.message} onChange={handleChange} placeholder="Excited to celebrate with you!" />
                 </div>
                 {error && <p className="error-text">{error}</p>}
                 <button type="submit" className="submit-btn" disabled={saving}>
@@ -710,20 +709,10 @@ export default function Home() {
           ) : (
             <div className="confirm-wrap">
               <div className="confirm-check">✓</div>
-              <h2 className="section-title">
-                You're on the list, {submitted.name.split(" ")[0]}!
-              </h2>
-              <p className="section-desc">
-                Keep this pass — show it at the door on the day.
-              </p>
-              <TicketStub
-                guestName={submitted.name}
-                guestCount={submitted.guests}
-                code={submitted.code}
-              />
-              <button className="again-btn" onClick={resetForm}>
-                Submit another RSVP
-              </button>
+              <h2 className="section-title">You're on the list, {submitted.name.split(" ")[0]}!</h2>
+              <p className="section-desc">Keep this pass — show it at the door on the day.</p>
+              <TicketStub guestName={submitted.name} guestCount={submitted.guests} code={submitted.code} />
+              <button className="again-btn" onClick={resetForm}>Submit another RSVP</button>
             </div>
           )}
         </section>
