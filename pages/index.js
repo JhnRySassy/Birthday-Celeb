@@ -661,7 +661,6 @@ export default function Home() {
             >
                             View bigger map
             </a>
-            </a>
             <iframe
               className="map-frame"
               src={EVENT.mapEmbedUrl}
