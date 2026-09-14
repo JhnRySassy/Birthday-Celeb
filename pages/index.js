@@ -659,7 +659,8 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="map-cta-icon">[ ]</span> View bigger map
+                            View bigger map
+            </a>
             </a>
             <iframe
               className="map-frame"
