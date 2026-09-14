@@ -648,7 +648,7 @@ export default function Home() {
               <span className="detail-value">{EVENT.dressCode}</span>
             </div>
           </div>
-          <div className="rsvp-note">
+                    <div className="rsvp-note">
             {EVENT.address} — kindly RSVP on or before <strong>{EVENT.rsvpBy}</strong>.
           </div>
 
@@ -659,7 +659,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-                            View bigger map
+              View bigger map
             </a>
             <iframe
               className="map-frame"
@@ -670,7 +670,7 @@ export default function Home() {
             />
           </div>
           <a className="map-link" href={EVENT.mapDirectionsUrl} target="_blank" rel="noopener noreferrer">
-            Directions in the Maps app ↗
+            Directions in the Maps app
           </a>
         </section>
 
