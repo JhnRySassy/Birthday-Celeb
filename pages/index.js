@@ -652,14 +652,14 @@ export default function Home() {
             {EVENT.address} — kindly RSVP on or before <strong>{EVENT.rsvpBy}</strong>.
           </div>
 
-          <div className="map-wrap">
+                    <div className="map-wrap">
             
               className="map-cta"
               href={EVENT.mapDirectionsUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="map-cta-icon">⤢</span> View bigger map
+              View bigger map
             </a>
             <iframe
               className="map-frame"
@@ -670,7 +670,7 @@ export default function Home() {
             />
           </div>
           <a className="map-link" href={EVENT.mapDirectionsUrl} target="_blank" rel="noopener noreferrer">
-            Directions in the Maps app ↗
+            Directions in the Maps app
           </a>
         </section>
 
