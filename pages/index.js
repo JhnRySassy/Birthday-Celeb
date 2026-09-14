@@ -24,11 +24,11 @@ const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzz5ah7rzGTy4TUc-kGNi4GOK6tawlcr1RsCohMTUlmZvD6VmG7iGqp0YTSeRBqgGK5_Q/exec";
 
 const PHOTOS = [
-  "../photos/cherry-1.jpg",
-  "../photos/cherry-2.jpg",
-  "../photos/cherry-3.jpg",
-  "../photos/cherry-4.jpg",
-  "../photos/cherry-5.jpg",
+  "/photos/cherry-1.jpg",
+  "/photos/cherry-2.jpg",
+  "/photos/cherry-3.jpg",
+  "/photos/cherry-4.jpg",
+  "/photos/cherry-5.jpg",
 ];
 
 const FONT_IMPORT_CSS = `
