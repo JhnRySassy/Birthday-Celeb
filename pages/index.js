@@ -9,11 +9,11 @@ import React, { useState, useEffect, useRef } from "react";
 // ---------------------------------------------------------------
 
 const EVENT = {
-  name: "Cherry Lyn Dawang",
+  name: "Cherry Dawang",
   headline: "is turning a year more wonderful",
   date: "September 18, 2026",
   time: "6:00 PM", // ← placeholder, update to the real time
-  venue: "Mang Rudy's Tuna Grill & Papaitan", // ← placeholder
+  venue: "Add your venue name here", // ← placeholder
   address: "7483 Bagtikan Street, Makati, 1203 Kalakhang Maynila",
   mapEmbedUrl: "https://maps.google.com/maps?q=14.562988,121.012796&z=17&hl=en&output=embed",
   mapDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=14.562988,121.012796",
@@ -648,7 +648,7 @@ export default function Home() {
               <span className="detail-value">{EVENT.dressCode}</span>
             </div>
           </div>
-                    <div className="rsvp-note">
+          <div className="rsvp-note">
             {EVENT.address} — kindly RSVP on or before <strong>{EVENT.rsvpBy}</strong>.
           </div>
 
@@ -659,7 +659,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View bigger map
+              <span className="map-cta-icon">⤢</span> View bigger map
             </a>
             <iframe
               className="map-frame"
@@ -670,7 +670,7 @@ export default function Home() {
             />
           </div>
           <a className="map-link" href={EVENT.mapDirectionsUrl} target="_blank" rel="noopener noreferrer">
-            Directions in the Maps app
+            Directions in the Maps app ↗
           </a>
         </section>
 
