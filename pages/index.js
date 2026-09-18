@@ -11,14 +11,14 @@ import React, { useState, useEffect, useRef } from "react";
 const EVENT = {
   name: "Cherry Lyn Dawang",
   headline: "is turning a year more wonderful",
-  date: "September 18, 2026",
-  time: "6:00 PM", // ← placeholder, update to the real time
+  date: "To be Scheduled!!!!!",
+  time: "To be Scheduled!!!!!", // ← placeholder, update to the real time
   venue: "Mang Rudy's Tuna Grill & Papaitan", // ← placeholder
   address: "7483 Bagtikan Street, Makati, 1203 Kalakhang Maynila",
   mapEmbedUrl: "https://maps.google.com/maps?q=14.562988,121.012796&z=17&hl=en&output=embed",
   mapDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=14.562988,121.012796",
   dressCode: "Wear something you feel good in", // ← placeholder
-  rsvpBy: "September 14, 2026",
+  rsvpBy: "To be Scheduled!!!!!",
 };
 
 // PASTE your deployed Google Apps Script Web App URL here (see README.md)
